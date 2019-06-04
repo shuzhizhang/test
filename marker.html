@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>  
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>风疹空间分布(数据虚构)</title>  
+<style type="text/css">  
+	html{height:100%}  
+	body{height:100%;margin:0px;padding:0px}  
+	#container{height:100%;position:relative;width:90%;margin:0 auto;}
+</style>  
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0eE1mY5Q7OXhuXiGRM3NWNAM4BcjAo1O"></script>
+</head> 
+<body> 
+<div id="container"></div>
+
+<script type="text/javascript"> 
+	var map = new BMap.Map("container");//创建百度地图实例
+	map.centerAndZoom(new BMap.Point(121.272693,31.348381), 12);//设置地图中心点和缩放级别
+	map.enableScrollWheelZoom(true);//设置地图可以拖动和缩放
+
+	var juzhudis = [];//居住地经纬度数据集
+	juzhudis.push([121.295744,31.418901]);
+	juzhudis.push([121.297475,31.278178]);
+	juzhudis.push([121.324807,31.254539]);
+	juzhudis.push([121.184069,31.290097]);
+	juzhudis.push([121.268252,31.366823]);
+	juzhudis.push([121.163197,31.306705]);
+	juzhudis.push([121.319635,31.278854]);
+	juzhudis.push([121.246052,31.383573]);
+	juzhudis.push([121.255988,31.387745]);
+	juzhudis.push([121.303572,31.30731]);
+	juzhudis.push([121.207954,31.41899]);
+	juzhudis.push([121.320497,31.291819]);
+	juzhudis.push([121.182534,31.360889]);
+
+	var gongzuodis = [];////工作地经纬度数据集
+	gongzuodis.push([121.33686,31.3581]);
+	gongzuodis.push([121.18059,31.305449]);
+	gongzuodis.push([121.247957,31.386629]);
+	gongzuodis.push([121.262169,31.389107]);
+	gongzuodis.push([121.19159,31.352029]);
+
+
+    var myIcon1 = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(19, 24), {anchor: new BMap.Size(10, 24),imageOffset: new BMap.Size(0, 0 - 7 * 25)}); //设置居住地标记的样式,，样式为该图片中左边第8个图标
+    //把居住地数据集中的坐标点放置在地图上。
+	for(var i=0; i<juzhudis.length; i++){
+		var point = new BMap.Point(juzhudis[i][0],juzhudis[i][1]);	//创建居住地坐标点
+		var marker = new BMap.Marker(point,{icon:myIcon1});//结合居住地坐标点，创建居住地标记
+		map.addOverlay(marker);//把居住地标记放置在地图上
+		marker.setAnimation(BMAP_ANIMATION_DROP);//设置放置“下坠”动画
+		var circle = new BMap.Circle(point,200); //以居住地为圆心，放置一个200米的圆
+		circle.setFillOpacity(0.4);
+		circle.setStrokeWeight(2);
+		circle.setFillColor("#0000ff");
+		map.addOverlay(circle);
+	}
+
+	var myIcon2 = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(19, 24), {anchor: new BMap.Size(10, 24),imageOffset: new BMap.Size(0, 0 - 2 * 25)}); //设置工作地标记的样式，样式为该图片中左边第三个图标
+	    //把工作地数据集中的坐标点放置在地图上。
+	for(var j=0; j<gongzuodis.length; j++){
+		var point = new BMap.Point(gongzuodis[j][0],gongzuodis[j][1]);	//创建工作地坐标点
+		var marker = new BMap.Marker(point,{icon:myIcon2});//结合工作地坐标点，创建工作地标记
+		map.addOverlay(marker);//把工作地标记放置在地图上
+		marker.setAnimation(BMAP_ANIMATION_DROP);//设置放置“下坠”动画
+		var circle = new BMap.Circle(point,200); //以工作地为圆心，放置一个200米的圆
+		circle.setFillOpacity(0.4);
+		circle.setStrokeWeight(2);
+		circle.setFillColor("#0000ff");
+		map.addOverlay(circle);
+	}
+
+	//添加右上角导航及缩放工具条。
+	var navigationControl = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT,type: BMAP_NAVIGATION_CONTROL_LARGE,enableGeolocation: true});
+	map.addControl(navigationControl);
+	//添加左上角比例尺工具条。
+	var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});
+	map.addControl(top_left_control);
+</script>
+</body>  
+</html>
